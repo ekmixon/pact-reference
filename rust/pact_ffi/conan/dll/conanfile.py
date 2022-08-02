@@ -14,30 +14,35 @@ class CbindgenTestConan(ConanFile):
 
     def build(self):
         if self.settings.os == "Windows":
-            url = ("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/pact_ffi-windows-x86_64.dll.gz"
-                   % (str(self.version)))
+            url = f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/pact_ffi-windows-x86_64.dll.gz"
+
             tools.download(url, "pact_ffi.dll.gz")
             tools.unzip("pact_ffi.dll.gz")
-            url = ("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/pact_ffi-windows-x86_64.dll.lib.gz"
-                   % (str(self.version)))
+            url = f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/pact_ffi-windows-x86_64.dll.lib.gz"
+
             tools.download(url, "pact_ffi.dll.lib.gz")
             tools.unzip("pact_ffi.dll.lib.gz")
         elif self.settings.os == "Linux":
-            url = ("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/libpact_ffi-linux-x86_64.so.gz"
-                % (str(self.version)))
+            url = f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/libpact_ffi-linux-x86_64.so.gz"
+
             tools.download(url, "libpact_ffi.so.gz")
             tools.unzip("libpact_ffi.so.gz")
         elif self.settings.os == "Macos":
-            url = ("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/libpact_ffi-osx-x86_64.dylib.gz"
-                   % (str(self.version)))
+            url = f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/libpact_ffi-osx-x86_64.dylib.gz"
+
             tools.download(url, "libpact_ffi.dylib.gz")
             tools.unzip("libpact_ffi.dylib.gz")
         else:
             raise Exception("Binary does not exist for these settings")
-        tools.download(("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/pact.h"
-                % (str(self.version))), "include/pact.h")
-        tools.download(("https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v%s/pact-cpp.h"
-                        % (str(self.version))), "include/pact-cpp.h")
+        tools.download(
+            f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/pact.h",
+            "include/pact.h",
+        )
+
+        tools.download(
+            f"https://github.com/pact-foundation/pact-reference/releases/download/libpact_ffi-v{str(self.version)}/pact-cpp.h",
+            "include/pact-cpp.h",
+        )
 
     def package(self):
         self.copy("libpact_ffi*.so", "lib", "")
